@@ -20,6 +20,7 @@ class EpilepsyState(BaseModel):
         description="MRI classification: epilepsy or healthy"
     )
 
+
     # ========= EEG CLASSIFIER OUTPUT =========
     seizure_phase: Optional[str] = Field(
         default=None,

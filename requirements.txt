@@ -4,3 +4,5 @@ langchain-groq
 python-dotenv
 typing-extensions
 ipykernel
+langchain-core
+langchain-community

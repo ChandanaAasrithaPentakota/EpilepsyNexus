@@ -1,3 +1,10 @@
+from pathlib import Path
+import sys
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 from config import GROQ_API_KEY
 from langchain_groq import ChatGroq
 
@@ -23,3 +30,5 @@ def get_groq_llm(model_name: str = "openai/gpt-oss-120b",temperature: float = 0.
     )
 
     return llm
+
+

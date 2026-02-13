@@ -6,3 +6,9 @@ typing-extensions
 ipykernel
 langchain-core
 langchain-community
+pinecone
+langchain-pinecone
+langchain-text-splitters
+tiktoken
+bs4
+ollama

@@ -9,7 +9,7 @@ from config import GROQ_API_KEY
 from langchain_groq import ChatGroq
 
 
-def get_groq_llm(model_name: str = "openai/gpt-oss-120b",temperature: float = 0.2):
+def get_groq_llm(model_name: str = "meta-llama/llama-4-maverick-17b-128e-instruct",temperature: float = 0.2):
     """
     Returns an initialized Groq LLM instance.
 

@@ -13,3 +13,7 @@ tiktoken
 bs4
 ollama
 sentence-transformers
+pandas
+matplotlib
+seaborn
+tqdm

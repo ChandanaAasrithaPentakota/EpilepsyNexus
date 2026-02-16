@@ -30,5 +30,3 @@ def get_groq_llm(model_name: str = "meta-llama/llama-4-maverick-17b-128e-instruc
     )
 
     return llm
-
-

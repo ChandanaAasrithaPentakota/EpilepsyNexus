@@ -13,12 +13,15 @@ class EpilepsyState(BaseModel):
         default=None,
         description="Path to EEG text file containing 50 comma-separated segments"
     )
+    symptoms_text: Optional[str] = None  
+
 
     # ========= MRI CLASSIFIER OUTPUT =========
     mri_epilepsy_label: Optional[str] = Field(
         default=None,
         description="MRI classification: epilepsy or healthy"
     )
+
 
     # ========= EEG CLASSIFIER OUTPUT =========
     seizure_phase: Optional[str] = Field(

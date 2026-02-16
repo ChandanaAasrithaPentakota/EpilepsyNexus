@@ -4,6 +4,7 @@ from pathlib import Path
 from langchain_core.prompts import PromptTemplate
 from graph import EpilepsyState
 from llms.groq_llm import get_groq_llm
+import re
 
 llm = get_groq_llm()
 PROJECT_ROOT = Path.cwd().parent
@@ -32,7 +33,12 @@ def safe_guard_node(state: EpilepsyState) -> EpilepsyState:
     try:
         response = llm.invoke(prompt.format(**inputs))
         content = response.content.strip()
+        content = re.sub(r"```json|```", "", content).strip()
+        match = re.search(r"\{.*\}", content, re.DOTALL)
+        if match:
+            content = match.group(0)
         output = json.loads(content)
+
 
         state.safety_passed = output.get("safety_passed", False)
         state.safety_notes = output.get("safety_notes", "No safety notes provided.")

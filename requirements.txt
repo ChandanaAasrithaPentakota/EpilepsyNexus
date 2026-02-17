@@ -17,3 +17,7 @@ pandas
 matplotlib
 seaborn
 tqdm
+tensorflow
+opencv-python
+lightgbm
+scikit-learn==1.6.1

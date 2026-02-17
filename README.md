@@ -1,2 +1,0 @@
-# EpilepsyNexus
-Agentic AI

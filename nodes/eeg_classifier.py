@@ -87,15 +87,6 @@ def eeg_classifier_node(state: EpilepsyState) -> EpilepsyState:
 
     return state
 
-if __name__ == "__main__":
-    state = EpilepsyState(
-        eeg_text_file_path="sample.txt"
-    )
-
-    result = eeg_classifier_node(state)
-    print("Seizure type:", result.seizure_type)
-
-
 
 
 

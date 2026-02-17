@@ -40,22 +40,4 @@ def patient_communication_node(state: EpilepsyState) -> EpilepsyState:
 
     return state
 
-                                    ####=====test==========####
-
-state = EpilepsyState(
-    neuro_diagnostic_report="""
-                    Seizure Phase:
-                    Ictal
-                    Seizure Type:
-                    Focal
-                    Epilepsy Presence (Fusion Result):
-                    Yes
-                    Fusion Explanation:
-                    Both MRI and EEG findings suggest focal seizure activity.
-                    Retrieved Medical Context:
-                    Focal"""
-
-)
-state = patient_communication_node(state)
-
-print(state.patient_explanation)
+ 

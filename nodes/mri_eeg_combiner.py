@@ -52,14 +52,3 @@ def mri_eeg_fusion_node(state: EpilepsyState) -> EpilepsyState:
     state.fusion_explanation = output.get("fusion_explanation")
 
     return state
-
-####====testing====####
-state = EpilepsyState(
-    mri_epilepsy_label="epilepsy",
-    seizure_type="focal",
-    symptoms_text="Convulsions, loss of consciousness, confusion after episode"
-)
-
-state = mri_eeg_fusion_node(state)
-
-print(json.dumps(state.model_dump(), indent=4))

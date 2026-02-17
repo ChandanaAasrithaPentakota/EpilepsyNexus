@@ -1,11 +1,5 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List
-import numpy as np
-import pickle
-from pathlib import Path
-
-import sys
-from pathlib import Path
 
 class EpilepsyState(BaseModel):
     # ========= RAW INPUTS =========
@@ -78,14 +72,3 @@ class EpilepsyState(BaseModel):
         default=None,
         description="Notes or corrections added by safety guard"
     )
-
-
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-sys.path.append(str(PROJECT_ROOT))
-from nodes.mri_classifier import mri_classifier_node
-from nodes.eeg_classifier import eeg_classifier_node
-from nodes.mri_eeg_combiner import fusion_node
-from nodes.medical_rag import medical_rag_node
-from nodes.neuro_diagnostic_report import neuro_diagnostic_report_node
-from nodes.patient_communication import patient_communication_node
-from nodes.safe_guard import safety_guard_node

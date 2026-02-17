@@ -53,42 +53,4 @@ def safe_guard_node(state: EpilepsyState) -> EpilepsyState:
 
     return state
 
-                                    ####=====test==========####
-
-state = EpilepsyState(
-    neuro_diagnostic_report="""
-    
-                    Seizure Phase:
-                    Ictal
-
-                    Seizure Type:
-                    Focal
-
-                    Epilepsy Presence (Fusion Result):
-                    Yes
-
-                    Fusion Explanation:
-                    Both MRI and EEG findings suggest focal seizure activity.
-
-                    Retrieved Medical Context:
-                    Focal""",
-    patient_explanation="""
-                 The recent brain scan and electrical testing that were done together show patterns 
-                 that could indicate a type of seizure that starts in a specific area of the brain. 
-                 This pattern is often called a focal seizure, meaning the activity begins in one region
-                 rather than spreading across the whole brain at once. Because the findings from both the 
-                 imaging and the electrical study point in the same direction, the results may suggest the 
-                 presence of an ongoing seizure condition. It is important to remember that these results are 
-                 only part of the overall picture, and a neurologist will need to review them along with your
-                 symptoms, medical history, and any other tests. They can explain what the findings might mean 
-                 for you, discuss possible next steps, and answer any questions you have. Please schedule a 
-                 follow‑up appointment with your neurologist to go over this information in detail.
-                 This explanation is for your understanding only and does not replace professional medical 
-                 advice."""
-                    
-
-)
-state = safe_guard_node(state)
-
-print("Safety Passed:", state.safety_passed)
-print("Safety Notes:", state.safety_notes)
+ 

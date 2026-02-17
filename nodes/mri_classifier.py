@@ -30,7 +30,8 @@ def crop_brain(image):
 
     return image
 
-from tensorflow.keras.preprocessing import image
+
+
 
 def resize_image(image, size=224):
     return cv2.resize(image, (size, size))

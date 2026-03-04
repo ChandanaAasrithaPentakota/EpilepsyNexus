@@ -23,7 +23,7 @@ from sklearn.preprocessing import StandardScaler
 # =====================================================
 # REBUILD SCALER
 # =====================================================
-df = pd.read_csv("/home/aasritha/EpilepsyNexus/trails/BEED_Data.csv")
+df = pd.read_csv("/home/aasritha/EpilepsyNexus/nodes/BEED_Data.csv")
 
 X = df.drop("y", axis=1)
 

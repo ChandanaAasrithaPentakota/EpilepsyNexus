@@ -28,7 +28,7 @@ def build_graph():
 
     workflow = StateGraph(EpilepsyState)
 
-    # ---- Add nodes ----
+    # Add nodes
     workflow.add_node("mri_classifier", mri_classifier_node)
     workflow.add_node("eeg_classifier", eeg_classifier_node)
     workflow.add_node("fusion", mri_eeg_fusion_node)
@@ -37,7 +37,7 @@ def build_graph():
     workflow.add_node("patient", patient_communication_node)
     workflow.add_node("safety", safe_guard_node)
 
-    # ---- Flow ----
+    # Add Edges
     workflow.set_entry_point("mri_classifier")
 
     workflow.add_edge("mri_classifier", "eeg_classifier")

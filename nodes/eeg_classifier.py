@@ -23,7 +23,13 @@ from sklearn.preprocessing import StandardScaler
 # =====================================================
 # REBUILD SCALER
 # =====================================================
-df = pd.read_csv("/home/aasritha/EpilepsyNexus/nodes/BEED_Data.csv")
+# Load BEED_Data.csv using a path relative to this module so
+# it works on different operating systems/environments.
+data_path = Path(__file__).resolve().parent / "BEED_Data.csv"
+if not data_path.exists():
+    data_path = PROJECT_ROOT / "nodes" / "BEED_Data.csv"
+
+df = pd.read_csv(data_path)
 
 X = df.drop("y", axis=1)
 

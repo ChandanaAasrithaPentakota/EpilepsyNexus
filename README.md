@@ -26,14 +26,13 @@ explainability layers
 
 The pipeline follows this multimodal flow:
 
-1.  MRI Preprocessing & Classification\
-2.  EEG Classification\
-3.  Symptom-based Seizure Phase Detection\
-4.  MRI + EEG + Symptoms Fusion\
-5.  Medical RAG for grounded knowledge\
-6.  Neurologist-style Diagnostic Report\
-7.  Patient Communication\
-8.  Safety Guard for medical neutrality
+1.  MRI Preprocessing & Classification
+2.  EEG Classification
+3.  MRI + EEG + Symptoms Fusion
+4.  Medical RAG for grounded knowledge
+5.  Neurologist-style Diagnostic Report
+6.  Patient Communication
+7.  Safety Guard for medical neutrality
 
 ------------------------------------------------------------------------
 

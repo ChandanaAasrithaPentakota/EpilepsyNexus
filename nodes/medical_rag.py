@@ -27,7 +27,7 @@ prompt = PromptTemplate(
     ],
 )
 
-INDEX_NAME = "epilepsynexus"
+INDEX_NAME = "epilepsynexus1"
 
 pc = Pinecone(api_key=PINECONE_API_KEY)
 

@@ -3,24 +3,30 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(PROJECT_ROOT))
 
-
 import cv2
 import numpy as np
 import tensorflow as tf
-from pathlib import Path
 
-
+from tensorflow.keras.applications.efficientnet_v2 import preprocess_input
 from graph import EpilepsyState
+
 
 MODEL_PATH = PROJECT_ROOT / "models" / "efficientnet_v2_finetuned.h5"
 model = tf.keras.models.load_model(MODEL_PATH)
 
+
+
 def crop_brain(image):
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    _, thresh = cv2.threshold(gray, 10, 255, cv2.THRESH_BINARY)
+    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)  # ✅ changed to RGB
+
+    gray = cv2.GaussianBlur(gray, (5, 5), 0)
+
+    thresh = cv2.threshold(gray, 45, 255, cv2.THRESH_BINARY)[1]
+    thresh = cv2.erode(thresh, None, iterations=2)
+    thresh = cv2.dilate(thresh, None, iterations=2)
 
     contours, _ = cv2.findContours(
-        thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+        thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
     )
 
     if len(contours) > 0:
@@ -31,43 +37,31 @@ def crop_brain(image):
     return image
 
 
-
-
-def resize_image(image, size=224):
-    return cv2.resize(image, (size, size))
-
-
 def preprocess_mri_inference(image):
     """
-    EXACT match with your saved training dataset.
+    MUST match training (EfficientNetV2 pipeline)
     """
 
-    # ---- crop ----
+
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+
     image = crop_brain(image)
 
-    # ---- resize ----
-    image = resize_image(image)
 
-    # ---- same min-max scaling ----
+    image = cv2.resize(image, (224, 224))
+
+
     image = image.astype(np.float32)
-    image = (image - image.min()) / (image.max() - image.min() + 1e-8)
 
-    # ---- convert to uint8 (same as saved dataset) ----
-    image = (image * 255).astype(np.uint8)
-
-    # ---- final normalization ----
-    image = image.astype(np.float32) / 255.0
+    image = preprocess_input(image)
 
     return image
 
 
-# =====================================================
-# 3️⃣ MRI NODE
-# =====================================================
-
 def mri_classifier_node(state: EpilepsyState) -> EpilepsyState:
     """
-    MRI epilepsy classification.
+    MRI epilepsy classification
     """
 
     if state.mri_image_path is None:
@@ -75,30 +69,29 @@ def mri_classifier_node(state: EpilepsyState) -> EpilepsyState:
         return state
 
     try:
-        # ---- load image ----
-        img = cv2.imread(state.mri_image_path)
+
+        img = cv2.imread(str(state.mri_image_path))
 
         if img is None:
             state.mri_epilepsy_label = "uncertain"
             return state
 
-        # ---- preprocess ----
+
         processed = preprocess_mri_inference(img)
 
-        # ---- add batch ----
+
         processed = np.expand_dims(processed, axis=0)
 
 
-        # ---- predict ----
         pred = model.predict(processed, verbose=0)[0][0]
 
+      
 
 
-        # ---- your threshold rule ----
-        if pred <= 0.5:
-            label = "epilepsy"
-        else:
+        if pred > 0.5:
             label = "healthy"
+        else:
+            label = "epilepsy"
 
         state.mri_epilepsy_label = label
 
@@ -107,5 +100,3 @@ def mri_classifier_node(state: EpilepsyState) -> EpilepsyState:
         state.mri_epilepsy_label = "uncertain"
 
     return state
-
-

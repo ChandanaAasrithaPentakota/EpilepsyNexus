@@ -208,4 +208,25 @@ __marimo__/
 
 # Environment & secrets
 .env
+.env.*
+!.env.example
 venv/
+
+# ML models (large binary files)
+models/*.h5
+models/*.pkl
+models/*.pt
+models/*.pth
+models/*.onnx
+
+# API / config with secrets
+config.py
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# Output files
+*.pdf
+

@@ -8,6 +8,19 @@ const badge = (val: string | boolean | null) => {
   return 'badge badge-yellow'
 }
 
+// Bold any line that looks like a heading (ends with ":" or is ALL CAPS)
+function formatReport(text: string) {
+  return text.split('\n').map((line, i) => {
+    const trimmed = line.trim()
+    const isHeading =
+      (trimmed.endsWith(':') && trimmed.length < 60) ||
+      (trimmed === trimmed.toUpperCase() && trimmed.length > 2 && /[A-Z]/.test(trimmed))
+    return isHeading
+      ? <p key={i} style={{ fontWeight: 700, color: '#e2e8f0', marginTop: '0.8rem' }}>{line}</p>
+      : <p key={i} style={{ marginLeft: '0.5rem', color: '#cbd5e1' }}>{line}</p>
+  })
+}
+
 export default function ResultPanel({ result }: Props) {
   return (
     <div className="result-panel">
@@ -17,12 +30,6 @@ export default function ResultPanel({ result }: Props) {
         <div className="summary-card">
           <span className="label">Epilepsy Presence</span>
           <span className={badge(result.epilepsy_presence)}>{result.epilepsy_presence ?? '—'}</span>
-        </div>
-        <div className="summary-card">
-          <span className="label">MRI Finding</span>
-          <span className={badge(result.mri_epilepsy_label === 'epilepsy' ? 'yes' : 'no')}>
-            {result.mri_epilepsy_label ?? '—'}
-          </span>
         </div>
         <div className="summary-card">
           <span className="label">Seizure Type</span>
@@ -38,28 +45,16 @@ export default function ResultPanel({ result }: Props) {
         </div>
       </div>
 
-      {/* Fusion explanation */}
-      <section>
-        <h2>Multimodal Fusion</h2>
-        <p>{result.fusion_explanation}</p>
-      </section>
-
       {/* Neurologist report */}
       <section>
-        <h2>Neurologist Report</h2>
-        <pre>{result.neuro_diagnostic_report}</pre>
+        <h2>Neurologist Style Diagnostic Report</h2>
+        <div className="report-body">{formatReport(result.neuro_diagnostic_report ?? '')}</div>
       </section>
 
       {/* Patient explanation */}
       <section>
         <h2>Patient Explanation</h2>
         <p>{result.patient_explanation}</p>
-      </section>
-
-      {/* Medical context */}
-      <section>
-        <h2>Medical Context (RAG)</h2>
-        <pre>{result.medical_context}</pre>
       </section>
 
       {/* Safety notes */}
